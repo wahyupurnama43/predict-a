@@ -13,8 +13,8 @@ class predictController {
       }
 
       try {
-        // const modelUrl = "https://storage.googleapis.com/submissionmlgc-wahyupurnama.appspot.com/submissions-model/model.json";
-        const modelUrl = "file://models/model.json";
+        const modelUrl = "https://storage.googleapis.com/predict-wahyu/submissions-model/model.json";
+        // const modelUrl = "file://models/model.json";
         const model = await tfjs.loadGraphModel(modelUrl);
         const tensor = tfjs.node
           .decodeJpeg(img)
@@ -51,7 +51,7 @@ class predictController {
           "createdAt": createdAt
         }
 
-        // const store  = await storeData.storePrediction(id, data);
+        const store  = await storeData.storePrediction(id, data);
 
         return res.status(201).send(
           { 
@@ -63,8 +63,8 @@ class predictController {
       } catch (error) {
         return res.status(400).send(
           {
-            "status": "fail",
-            "message": "Terjadi kesalahan dalam melakukan prediksi"
+            "status": "failed",
+            "message": error
          }
         );
       }
