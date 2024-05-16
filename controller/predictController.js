@@ -1,5 +1,6 @@
 const tfjs = require('@tensorflow/tfjs-node');
 const storeData = require('../service/storeData');
+const {v4 : uuidv4} = require('uuid')
 class predictController {
  
     static async predict(req, res) {
@@ -13,7 +14,7 @@ class predictController {
       }
 
       try {
-        const modelUrl = "https://storage.googleapis.com/predict-wahyu/submissions-model/model.json";
+        const modelUrl = "https://storage.googleapis.com/submissionmlgc-purnamawahyup.appspot.com/submissions-model/model.json";
         // const modelUrl = "file://models/model.json";
         const model = await tfjs.loadGraphModel(modelUrl);
         const tensor = tfjs.node
@@ -41,7 +42,7 @@ class predictController {
           suggestion = "Anda sehat!"
         }
 
-        const id = crypto.randomUUID();
+        const id = uuidv4();
         const createdAt = new Date().toISOString();
        
         const data = {
@@ -63,9 +64,9 @@ class predictController {
       } catch (error) {
         return res.status(400).send(
           {
-            "status": "failed",
-            "message": error
-         }
+            "status": "fail",
+            "message": "Terjadi kesalahan dalam melakukan prediksi"
+          }
         );
       }
       
